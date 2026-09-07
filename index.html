@@ -145,12 +145,14 @@ p{margin:0}
 .clock-t{font-family:var(--f-disp);font-size:19px;letter-spacing:.03em;line-height:1;font-variant-numeric:tabular-nums}
 .rail-btns{display:flex;gap:6px;flex:0 0 auto}
 .icbtn{
-  width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
+  position:relative;width:36px;height:36px;border-radius:10px;display:grid;place-items:center;
   border:1px solid var(--line);background:rgba(19,31,49,.55);color:var(--muted);transition:.18s ease;
 }
-.icbtn:hover{color:var(--bone);border-color:var(--trace-dim);background:rgba(28,143,121,.16);transform:translateY(-1px)}
+.icbtn:hover{color:var(--bone);border-color:var(--trace-dim);background:rgba(28,143,121,.16)}
 .icbtn.act{color:var(--trace);border-color:var(--trace-dim)}
-.icbtn svg{width:17px;height:17px}
+/* pinned to the button's centre so swapping the glyph cannot move it */
+.icbtn svg{width:17px;height:17px;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}
+[hidden]{display:none !important}
 
 /* ---------------- stage ---------------- */
 #stage{position:relative;z-index:10;flex:1 1 auto;min-height:0;overflow:hidden}
@@ -995,7 +997,7 @@ body.stething{cursor:none}
 <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18.5h2"/></symbol>
 <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h12v5a6 6 0 0 1-12 0Z"/><path d="M6 6H4a2 2 0 0 0 0 4h2M18 6h2a2 2 0 0 1 0 4h-2"/><path d="M9 20h6M12 15v5"/></symbol>
 <symbol id="i-vol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4Z"/><path d="M15.5 9a4 4 0 0 1 0 6M18.5 6a8 8 0 0 1 0 12"/></symbol>
-<symbol id="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4Z"/><path d="m16 9 6 6M22 9l-6 6"/></symbol>
+<symbol id="i-mute" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5 6 9H2v6h4l5 4Z"/><path d="m15.6 9 6 6M21.6 9l-6 6"/></symbol>
 <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></symbol>
 <symbol id="i-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
 <symbol id="i-next" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></symbol>
@@ -1089,7 +1091,7 @@ body.stething{cursor:none}
       <div class="lbl" id="clockPhase">Зміна не почалась</div>
     </div>
     <div class="rail-btns">
-      <button class="icbtn" id="btnSound" title="Звук" aria-label="Звук"><svg><use href="#i-vol"/></svg></button>
+      <button class="icbtn act" id="btnSound" title="Звук" aria-label="Звук"><svg class="ic-on"><use href="#i-vol"/></svg><svg class="ic-off" hidden><use href="#i-mute"/></svg></button>
       <button class="icbtn" id="btnHelp" title="Як грати" aria-label="Як грати"><svg><use href="#i-bulb"/></svg></button>
     </div>
   </header>
@@ -4478,7 +4480,8 @@ function renderEnd(){
 function toggleSound(){
   A.set(!S.sound);
   const b = $('#btnSound');
-  b.innerHTML = `<svg><use href="#i-${S.sound?'vol':'mute'}"/></svg>`;
+  $('.ic-on', b).hidden = !S.sound;
+  $('.ic-off', b).hidden = S.sound;
   b.classList.toggle('act', S.sound);
   if(S.sound){ A.startAmbient(); toast('Звук увімкнено', 'Дощ, коридор і монітор.', '', 'vol'); }
   else toast('Звук вимкнено', 'Тиша теж атмосферна.', '', 'mute');
@@ -4571,7 +4574,8 @@ setInterval(()=>{
 (function boot(){
   buildDesk(); initWindow(); initRailEcg();
   applyHour(); renderRail();
-  $('#btnSound').innerHTML = `<svg><use href="#i-${S.sound?'vol':'mute'}"/></svg>`;
+  $('.ic-on', $('#btnSound')).hidden = !S.sound;
+  $('.ic-off', $('#btnSound')).hidden = S.sound;
   $('#btnSound').classList.toggle('act', S.sound);
   if(S.finished){ renderEnd(); showScene('end'); }
   else if(S.started && S.room){ showScene('room'); renderRoom(S.room); }

@@ -1,0 +1,14 @@
+# Vercel
+.vercel
+
+# Node (на випадок, якщо колись знадобиться тулінг)
+node_modules/
+npm-debug.log*
+
+# Сміття ОС і редакторів
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+.idea/
+.vscode/

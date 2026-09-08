@@ -546,7 +546,7 @@ body.stething{cursor:none}
 .steth-read svg{width:15px;height:15px;color:var(--trace);flex:0 0 auto}
 
 /* ================= NEURO ================= */
-.brain-stage{position:relative;border-radius:18px;border:1px solid var(--line);background:radial-gradient(70% 70% at 50% 45%,#16233A,#070D18);overflow:hidden;min-height:360px;cursor:grab;display:grid;place-items:center}
+.brain-stage{position:relative;border-radius:18px;border:1px solid var(--line);background:radial-gradient(70% 70% at 50% 45%,#16233A,#070D18);overflow:hidden;min-height:360px;cursor:grab;display:grid;place-items:center;touch-action:none;-webkit-user-select:none;user-select:none}
 .brain-stage.drag{cursor:grabbing}
 #brainCanvas{display:block;width:100%;height:100%;touch-action:none}
 .brain-hint{position:absolute;left:14px;bottom:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase;pointer-events:none}
@@ -573,6 +573,7 @@ body.stething{cursor:none}
 .xr-viewport{
   position:relative;border-radius:18px;border:1px solid var(--line);overflow:hidden;
   background:#05090F;min-height:400px;cursor:crosshair;
+  touch-action:none;-webkit-user-select:none;user-select:none;
 }
 .xr-img{position:absolute;inset:0;display:grid;place-items:center;transition:filter .18s}
 .xr-img svg{max-width:100%;max-height:100%;display:block}
@@ -737,7 +738,7 @@ body.stething{cursor:none}
   border:1px solid #24374F;box-shadow:0 30px 70px -18px rgba(0,0,0,.9);
 }
 .oswin-h{
-  display:flex;align-items:center;gap:9px;padding:8px 10px;cursor:grab;user-select:none;
+  display:flex;align-items:center;gap:9px;padding:8px 10px;cursor:grab;user-select:none;touch-action:none;
   background:linear-gradient(180deg,#16273E,#101D30);border-bottom:1px solid #24374F;flex:0 0 auto;
 }
 .oswin-h.grab{cursor:grabbing}
@@ -870,6 +871,7 @@ body.stething{cursor:none}
 /* ================= RESEARCH LAB ================= */
 .res{
   --trace:var(--violet);
+  touch-action:none;-webkit-user-select:none;user-select:none;
   position:relative;border-radius:18px;border:1px solid color-mix(in srgb,var(--violet) 32%,var(--line));
   background:radial-gradient(80% 80% at 50% 30%,#1A1330,#06070F 72%);overflow:hidden;min-height:420px;
   display:grid;place-items:center;
@@ -1545,7 +1547,7 @@ function closeModal(){
   if(f) f();
 }
 $('#modalX').onclick = ()=>{ A.click(); closeModal(); };
-$('#scrim').addEventListener('mousedown', e=>{ if(e.target === $('#scrim')) closeModal(); });
+$('#scrim').addEventListener('pointerdown', e=>{ if(e.target === $('#scrim')) closeModal(); });
 document.addEventListener('keydown', e=>{
   if(e.key === 'Escape'){
     if($('#scrim').classList.contains('on')) closeModal();
@@ -2504,7 +2506,7 @@ function openSteth(){
 
   document.body.classList.add('stething');
   $('#stethCursor').classList.add('on');
-  document.addEventListener('mousemove', stethMove);
+  document.addEventListener('pointermove', stethMove);
 
   $$('#stethStage .spot-g').forEach(g=>{
     const a = AUSC.find(x=>x.id===g.dataset.s);
@@ -2541,7 +2543,7 @@ function stethMove(e){
 function stopSteth(){
   document.body.classList.remove('stething');
   $('#stethCursor').classList.remove('on');
-  document.removeEventListener('mousemove', stethMove);
+  document.removeEventListener('pointermove', stethMove);
 }
 
 /* ============================================================
@@ -2685,9 +2687,14 @@ function initBrain(){
     draw();
   })();
 
-  stage.addEventListener('mousedown', e=>{ drag=true; lx=e.clientX; ly=e.clientY; stage.classList.add('drag'); });
-  window.addEventListener('mouseup', ()=>{ drag=false; stage.classList.remove('drag'); });
-  stage.addEventListener('mousemove', e=>{
+  stage.addEventListener('pointerdown', e=>{
+    drag=true; lx=e.clientX; ly=e.clientY; stage.classList.add('drag');
+    try{ stage.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  const brainEnd = ()=>{ drag=false; stage.classList.remove('drag'); };
+  window.addEventListener('pointerup', brainEnd);
+  window.addEventListener('pointercancel', brainEnd);
+  stage.addEventListener('pointermove', e=>{
     const r = stage.getBoundingClientRect();
     if(drag){
       ry += (e.clientX-lx)*.008; rx = clamp(rx + (e.clientY-ly)*.006, -1.1, 1.1);
@@ -2711,7 +2718,7 @@ function initBrain(){
       tip.classList.add('on');
     } else tip.classList.remove('on');
   });
-  stage.addEventListener('mouseleave', ()=>{ tip.classList.remove('on'); hover=-1; });
+  stage.addEventListener('pointerleave', ()=>{ tip.classList.remove('on'); hover=-1; });
   /* touch has no hover, so a tap picks the nearest region instead */
   stage.addEventListener('click', e=>{
     const r = stage.getBoundingClientRect();
@@ -2920,9 +2927,14 @@ function roomXray(){
   ['xrCon','xrBri'].forEach(id=> $('#'+id).oninput = ()=>{ img.style.filter = `contrast(${$('#xrCon').value}) brightness(${$('#xrBri').value})`; });
   $('#xrZoom').oninput = ()=>{ zoom = +$('#xrZoom').value; paint(); };
   $('#xrReset').onclick = ()=>{ A.click(); zoom=1; panX=panY=0; $('#xrZoom').value=1; $('#xrCon').value=1.15; $('#xrBri').value=1; paint(); };
-  view.addEventListener('mousedown', e=>{ drag=true; lx=e.clientX; ly=e.clientY; });
-  window.addEventListener('mouseup', ()=> drag=false);
-  view.addEventListener('mousemove', e=>{
+  view.addEventListener('pointerdown', e=>{
+    drag=true; lx=e.clientX; ly=e.clientY;
+    try{ view.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  const xrEnd = ()=> drag=false;
+  window.addEventListener('pointerup', xrEnd);
+  window.addEventListener('pointercancel', xrEnd);
+  view.addEventListener('pointermove', e=>{
     if(!drag) return;
     panX += e.clientX-lx; panY += e.clientY-ly; lx=e.clientX; ly=e.clientY;
     const inner = img.firstElementChild;
@@ -3857,19 +3869,27 @@ function openWin(id){
   osOpen[id] = n;
   osApp(id, $('.oswin-b', n));
   $('.oswin-x', n).onclick = ()=>{ A.click(); n.remove(); delete osOpen[id]; taskbar(); };
-  n.addEventListener('mousedown', ()=> n.style.zIndex = ++osZ);
+  n.addEventListener('pointerdown', ()=> n.style.zIndex = ++osZ);
   const head = $('.oswin-h', n);
   let dx=0, dy=0, moving=false;
-  head.addEventListener('mousedown', e=>{
+  head.addEventListener('pointerdown', e=>{
     moving = true; head.classList.add('grab');
     dx = e.clientX - n.offsetLeft; dy = e.clientY - n.offsetTop;
+    try{ head.setPointerCapture(e.pointerId); }catch(_){}
     const mv = ev=>{
       if(!moving) return;
       n.style.left = clamp(ev.clientX-dx, -w+80, desk.clientWidth-60) + 'px';
       n.style.top  = clamp(ev.clientY-dy, 0, desk.clientHeight-32) + 'px';
     };
-    const up = ()=>{ moving=false; head.classList.remove('grab'); window.removeEventListener('mousemove',mv); window.removeEventListener('mouseup',up); };
-    window.addEventListener('mousemove', mv); window.addEventListener('mouseup', up);
+    const up = ()=>{
+      moving=false; head.classList.remove('grab');
+      window.removeEventListener('pointermove',mv);
+      window.removeEventListener('pointerup',up);
+      window.removeEventListener('pointercancel',up);
+    };
+    window.addEventListener('pointermove', mv);
+    window.addEventListener('pointerup', up);
+    window.addEventListener('pointercancel', up);
   });
   taskbar(); A.key();
 }
@@ -4107,13 +4127,18 @@ function initDna(){
     if(!drag) rot += .0045;
     draw();
   })();
-  cv.addEventListener('mousedown', e=>{ drag=true; lx=e.clientX; cv.classList.add('drag'); });
-  window.addEventListener('mouseup', ()=>{ drag=false; cv.classList.remove('drag'); });
-  cv.addEventListener('mousemove', e=>{
+  cv.addEventListener('pointerdown', e=>{
+    drag=true; lx=e.clientX; cv.classList.add('drag');
+    try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+  });
+  const dnaEnd = ()=>{ drag=false; cv.classList.remove('drag'); };
+  window.addEventListener('pointerup', dnaEnd);
+  window.addEventListener('pointercancel', dnaEnd);
+  cv.addEventListener('pointermove', e=>{
     const r = cv.getBoundingClientRect(); mx = e.clientX-r.left; my = e.clientY-r.top;
     if(drag){ rot += (e.clientX-lx)*.012; lx = e.clientX; }
   });
-  cv.addEventListener('mouseleave', ()=>{ mx=my=-999; });
+  cv.addEventListener('pointerleave', ()=>{ mx=my=-999; });
   cv.addEventListener('click', e=>{
     const r = cv.getBoundingClientRect();
     const cx = e.clientX - r.left, cy = e.clientY - r.top;
@@ -4480,8 +4505,8 @@ function renderEnd(){
 function toggleSound(){
   A.set(!S.sound);
   const b = $('#btnSound');
-  $('.ic-on', b).hidden = !S.sound;
-  $('.ic-off', b).hidden = S.sound;
+  $('.ic-on', b).toggleAttribute('hidden', !S.sound);
+  $('.ic-off', b).toggleAttribute('hidden', S.sound);
   b.classList.toggle('act', S.sound);
   if(S.sound){ A.startAmbient(); toast('Звук увімкнено', 'Дощ, коридор і монітор.', '', 'vol'); }
   else toast('Звук вимкнено', 'Тиша теж атмосферна.', '', 'mute');
@@ -4574,8 +4599,8 @@ setInterval(()=>{
 (function boot(){
   buildDesk(); initWindow(); initRailEcg();
   applyHour(); renderRail();
-  $('.ic-on', $('#btnSound')).hidden = !S.sound;
-  $('.ic-off', $('#btnSound')).hidden = S.sound;
+  $('.ic-on', $('#btnSound')).toggleAttribute('hidden', !S.sound);
+  $('.ic-off', $('#btnSound')).toggleAttribute('hidden', S.sound);
   $('#btnSound').classList.toggle('act', S.sound);
   if(S.finished){ renderEnd(); showScene('end'); }
   else if(S.started && S.room){ showScene('room'); renderRoom(S.room); }

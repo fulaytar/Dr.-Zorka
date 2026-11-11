@@ -1135,6 +1135,22 @@ body.stething{cursor:none}
 .bigred:active{transform:translateY(6px);box-shadow:0 1px 0 #5A0A16,0 4px 12px -6px rgba(255,77,98,.55),inset 0 -5px 10px rgba(0,0,0,.3)}
 @media (max-width:720px){ .scrim.on ~ #toasts{top:auto;bottom:calc(var(--dock) + 12px)} }
 
+/* night timeline + briefing */
+.night-line{display:flex;align-items:center;gap:10px;margin:8px 0 2px;max-width:560px}
+.nl-h{font-family:var(--f-mono);font-size:10.5px;color:var(--muted-dim)}
+.nl-track{position:relative;flex:1;height:6px;border-radius:3px;background:var(--line-soft)}
+.nl-track i{position:absolute;left:0;top:0;bottom:0;border-radius:3px;background:linear-gradient(90deg,var(--pulse),var(--violet) 60%,var(--amber));transition:width .8s ease}
+.nl-track em{position:absolute;top:-2px;width:1px;height:10px;background:var(--line)}
+.nl-track b{position:absolute;top:50%;width:22px;height:22px;margin:-11px 0 0 -11px;border-radius:50%;display:grid;place-items:center;background:var(--slab-2);border:1px solid var(--line);transition:left .8s ease;box-shadow:0 0 14px -2px var(--hour-glow)}
+.nl-track b .i{width:12px;height:12px;color:var(--bone)}
+.nl-left{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted);white-space:nowrap}
+.brief{display:flex;gap:13px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--line-soft)}
+.brief:last-child{border-bottom:none}
+.brief .bi{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:0 0 auto;background:rgba(28,143,121,.18);color:var(--trace)}
+.brief b{font-family:var(--f-disp);font-weight:500;font-size:13px}
+.brief p{font-size:13px;color:var(--muted);line-height:1.5;margin-top:2px}
+@media (max-width:720px){ .nl-left{display:none} }
+
 /* ================= UTIL / RESPONSIVE ================= */
 .empty{padding:26px 16px;text-align:center;color:var(--muted);font-family:var(--f-mono);font-size:12px;letter-spacing:.1em}
 .kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px}
@@ -2293,6 +2309,14 @@ function renderMap(){
     <div class="map-head">
       <div>
         <h2 class="map-title">Третій поверх, корпус B</h2>
+        <div class="night-line" title="Скільки ночі минуло">
+          <span class="nl-h">22:00</span>
+          <div class="nl-track"><i style="width:${S.finished?100:S.min/SHIFT_MIN*100}%"></i>
+            ${[1,2,3,4,5,6,7,8].map(h=>`<em style="left:${h/9*100}%"></em>`).join('')}
+            <b style="left:${S.finished?100:S.min/SHIFT_MIN*100}%">${ic(S.min>=450||S.finished?'sun':'moon')}</b></div>
+          <span class="nl-h">07:00</span>
+          <span class="nl-left">${S.finished ? 'зміну завершено' : `до ранку ${Math.floor((SHIFT_MIN-S.min)/60)} год ${String((SHIFT_MIN-S.min)%60).padStart(2,'0')} хв`}</span>
+        </div>
         <p class="map-note">Обери відділення. Двері не замкнені — крім тих, що замкнені.</p>
       </div>
       <div class="map-legend">
@@ -2708,7 +2732,7 @@ function openCase(pid){
         }
         const i = +k; if(done.has(i)) return;
         done.add(i); findings.push(p.acts[i].f);
-        A.ok(); addXp(6, 'Крок обстеження'); advance(11); addEnergy(-2);
+        A.ok(); addXp(6, 'Крок обстеження'); advance(5); addEnergy(-1);
         render();
       };
     });
@@ -2725,7 +2749,7 @@ function closeCase(p, joke){
     if(S.energy<=15) unlock('auto');
     S.cases.push(p.id); S.patients++; logIt(`Кейс №${p.id} закрито · ${p.nm}`, 'check'); save();
     if(p.sec) findSecret(p.sec);
-    addXp(Math.round(40*(mod().caseXp||1)), `Кейс №${p.id} закрито`); advance(22); addStress(-5);
+    addXp(Math.round(40*(mod().caseXp||1)), `Кейс №${p.id} закрито`); advance(10); addStress(-5);
     if(S.queue.length && S.queue.every(id=> S.cases.includes(id))){
       unlock('queue');
       toast('Черга порожня', 'У залі очікування тихо. Ніхто не каже цього вголос.', 'ach', 'users');
@@ -2980,7 +3004,7 @@ function nextQuiz(){
     $('#quizAgain').onclick = ()=>{ A.click(); buildQuiz(); };
     S.ecgBest = Math.max(S.ecgBest, quizStreak); save();
     if(quizStreak === 5){
-      unlock('cardio'); addXp(60,'ECG Challenge 5/5'); advance(28);
+      unlock('cardio'); addXp(60,'ECG Challenge 5/5'); advance(15);
     }
     return;
   }
@@ -3066,7 +3090,7 @@ function openSteth(){
       g.classList.add('heard');
       if(!heard.has(a.id)){
         heard.add(a.id); S.steth = [...heard]; save();
-        addXp(8, a.n); advance(6);
+        addXp(8, a.n); advance(4);
       }
       const cnt = $('#stethCount'); if(cnt) cnt.textContent = heard.size;
       $('#stethRead').innerHTML = ic('check') +
@@ -3458,7 +3482,7 @@ function roomXray(){
       const i = +g.dataset.i, x = XRAYS[idx], s = x.spots[i];
       const list = S.xray[x.id] || (S.xray[x.id] = []);
       if(list.includes(i)) return;
-      list.push(i); save(); A.ok(); addXp(14, s.n); advance(8);
+      list.push(i); save(); A.ok(); addXp(14, s.n); advance(5);
       if(s.secret) findSecret(s.secret);
       if(s.ach) unlock(s.ach);
       if(list.length>=3){
@@ -3735,7 +3759,7 @@ function openScope(){
       const secs = ((performance.now()-t0)/1000).toFixed(1);
       $('#scMsg').innerHTML = `<b class="tr">Знайдено за ${secs} с.</b> Саме той об’єкт.`;
       if(!S.labWin){ S.labWin = true; save(); unlock('labrat'); }
-      addXp(45, 'Lab Detective'); advance(18);
+      addXp(45, 'Lab Detective'); advance(10);
     } else if(hit.face){
       A.secret();
       if(!S.secrets.includes('facecell')) findSecret('facecell');
@@ -3837,7 +3861,7 @@ function roomER(){
     layout(); paintHint();
     A.alarmBeep(); setTimeout(()=>A.alarmBeep(), 260);
     clearInterval(timer); timer = setInterval(tick, 100);
-    advance(9);
+    advance(5);
   }
   function stop(){ running = false; clearInterval(timer); $('#codeStart').disabled = false; }
   function win(){
@@ -3846,7 +3870,7 @@ function roomER(){
     ttl.textContent = 'Emergency handled.'; ttl.classList.add('ok');
     $('#codeTimer').textContent = '—';
     S.codeWins++; save();
-    addXp(Math.round(100*(mod().code||1)), 'Code Blue'); advance(24); addStress(-8);
+    addXp(Math.round(100*(mod().code||1)), 'Code Blue'); advance(12); addStress(-8);
     if(errors === 0){
       S.codePerfect = true; save(); unlock('erqueen');
       const cp = $('#codePerf'); if(cp){ cp.textContent = 'так'; cp.className = 'v tr'; }
@@ -4002,13 +4026,13 @@ function roomPharm(){
       shelf([...VIALS.keys()].sort(()=>Math.random()-.5));
       paintOrd(false, 'Слухавку поклали. Полицю переставили. Збирай із пам’яті.');
     });
-    ordT = stop; advance(5);
+    ordT = stop; advance(3);
   }
   function ordWin(){
     const n = ord.need.length, clean = ord.err===0;
     S.pharmWins++; S.mgShift++; S.combo++; S.comboBest = Math.max(S.comboBest, S.combo);
     logIt(`Замовлення для «${ord.ward}» зібрано`, 'pill'); save();
-    A.ok(); addXp(20 + n*8 + (clean?15:0), 'Нічне замовлення'); advance(12);
+    A.ok(); addXp(20 + n*8 + (clean?15:0), 'Нічне замовлення'); advance(7);
     if(clean){ S.pharmPerfect = true; save(); unlock('pharm'); }
     if(S.combo >= 5) unlock('combo');
     paintOrd(true, clean ? 'Зібрано без жодної помилки. У журналі видачі з’явився розбірливий підпис — уперше за ніч.'
@@ -4224,7 +4248,7 @@ function buildCoffee(){
     const c = COFFEES[+b.dataset.c];
     A.coffee(); S.coffees++; save();
     const gain = Math.round(c.e*(mod().coffee||1));
-    addEnergy(gain); addStress(c.special ? 6 : -5); advance(12);
+    addEnergy(gain); addStress(c.special ? 6 : -5); advance(8);
     if(S.coffees >= 3) unlock('caffeine');
     logIt('Кава: '+c.n, 'coffee');
     if(c.special && !S.secrets.includes('special')) findSecret('special');
@@ -5096,7 +5120,7 @@ function applyOpt(ev, o){
   if(o.sms) S.pending.push({at:S.min+(o.smsIn||20), sms:o.sms});
   logIt(`${ev.t} — ${o.l.toLowerCase()}`, ev.i);
   if(S.evTotal >= 5) unlock('night');
-  advance(o.min||4);
+  advance(o.min||3);
   save();
   return chips;
 }
@@ -5365,11 +5389,11 @@ function mgDone(id, lvl, won, note){
     const bonus = Math.min(25, (S.combo-1)*5);
     A.ok(); logIt(`${MG[id].n}: рівень ${lvl} пройдено`, MG[id].i);
     addXp(MG_XP[id]*lvl + bonus, MG[id].n + (bonus?` · серія ×${S.combo}`:''));
-    advance(10); addStress(-4);
+    advance(6); addStress(-4);
     if(S.combo >= 5) unlock('combo');
     if(Object.keys(MG).every(k=> (S.mg[k]||0) >= 3)) unlock('master');
   } else {
-    S.combo = 0; A.bad(); addStress(5); advance(6); save();
+    S.combo = 0; A.bad(); addStress(5); advance(3); save();
   }
   if(S.finished) return;
   const next = won && lvl < 3;
@@ -6285,6 +6309,18 @@ $$('#dock .dockbtn').forEach(b=>{
 });
 $('#btnStart').onclick = startShift;
 
+function briefing(){
+  if($('#scrim').classList.contains('on')) return setTimeout(briefing, 1500);
+  S.seenIntro = true; save();
+  const row = (i,t,x)=>`<div class="brief"><span class="bi">${ic(i)}</span><div><b>${t}</b><p>${x}</p></div></div>`;
+  openModal({title:`${ic('moon')} Перша ніч`, body:
+    row('clock','Ніч не чекає','Час іде від дій, а не сам. До 07:00 усього не встигнути — обирай, що цікавіше. Наступна ніч буде іншою.') +
+    row('clip','План на ніч','Вісім пунктів угорі карти ведуть по всіх відділеннях. Жовта цятка на кімнаті — там ще є справа.') +
+    row('alert','Події','Між відділеннями щось трапляється. Рішення мають наслідки, іноді через годину-дві.') +
+    row('coffee','Energy','Нижче 15% — XP навпіл. Кавоварка в кімнаті персоналу, чашка на твоєму столі.') +
+    row('search','Секрети','Майже все, що виглядає натиснутим, натискається. Іноді — тричі.'),
+    actions:[{label:'До роботи', cls:'pri', icon:'check'}]});
+}
 function startShift(){
   A.resume(); A.set(S.sound);
   if(S.sound) A.startAmbient();
@@ -6308,6 +6344,7 @@ function startShift(){
   setTimeout(()=> ov.remove(), 1100);
   applyHour(); renderRail();
   setTimeout(goMap, 420);
+  if(!S.seenIntro) setTimeout(briefing, 1500);
   setTimeout(()=>{
     if(S.min < 20) toast('22:00 · зміна почалася', 'Сім пацієнтів у черзі. Кави — критично мало.', '', 'moon');
   }, 1300);

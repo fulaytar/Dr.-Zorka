@@ -1080,6 +1080,61 @@ body.stething{cursor:none}
 .closet.lit .b3 ellipse{fill:#6FC1FF;filter:drop-shadow(0 0 7px #6FC1FF)}
 @keyframes twinkle{0%,100%{opacity:1}45%{opacity:.35}60%{opacity:.9}}
 
+/* waiting room */
+.wait{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line);padding:14px 14px 0;
+  background:linear-gradient(180deg,#0E1A2C 0%,#0B1626 62%,#08111E 62%,#060D17 100%)}
+.wait::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(60% 50% at 22% 0%,rgba(76,178,255,.13),transparent 70%),radial-gradient(60% 50% at 80% 0%,rgba(76,178,255,.10),transparent 70%)}
+.wait-top{position:relative;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+.wait-board{font-family:var(--f-mono);font-size:10px;letter-spacing:.14em;padding:7px 11px;border-radius:8px;background:#04090F;border:1px solid #1E2E45;display:flex;flex-direction:column;gap:2px;color:var(--muted-dim)}
+.wait-board b{color:var(--amber);font-size:12px;text-shadow:0 0 10px rgba(255,179,71,.6);animation:ledblink 2.6s steps(1) infinite}
+@keyframes ledblink{0%,88%{opacity:1}92%{opacity:.35}}
+.wait-sign{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.22em;color:var(--muted-dim);display:flex;align-items:center;gap:7px}
+.wait-sign .i{width:13px;height:13px;color:var(--trace)}
+.wait-clock{font-family:var(--f-mono);font-size:15px;padding:6px 10px;border-radius:8px;background:#04090F;border:1px solid #1E2E45;color:var(--trace);text-shadow:0 0 10px rgba(53,230,192,.5)}
+.seats{position:relative;display:flex;flex-wrap:wrap;justify-content:center;align-items:flex-end;gap:2px 8px;padding:6px 0 0;z-index:1}
+.seat{position:relative;width:98px;padding:0 0 26px;transition:.22s cubic-bezier(.2,.85,.3,1);animation:rise .45s both;animation-delay:calc(var(--k)*50ms)}
+.seat svg{display:block;width:100%;height:auto;overflow:visible}
+.seat .fig{animation:breathe 3.6s ease-in-out infinite;animation-delay:calc(var(--k)*-.7s);transform-box:fill-box;transform-origin:50% 100%}
+@keyframes breathe{0%,100%{translate:0 0}50%{translate:0 -1.6px}}
+.seat:hover,.seat:focus-visible{transform:translateY(-6px);filter:drop-shadow(0 0 14px rgba(53,230,192,.4))}
+.seat-n{position:absolute;left:50%;bottom:5px;transform:translateX(-50%);white-space:nowrap;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted);
+  padding:2px 8px;border-radius:99px;background:rgba(6,11,20,.8);border:1px solid var(--line);display:flex;align-items:center;gap:5px}
+.seat-n i{width:7px;height:7px;border-radius:50%;background:var(--muted-dim)}
+.seat.t-yel .seat-n i{background:var(--amber);box-shadow:0 0 8px var(--amber)}
+.seat.t-grn .seat-n i{background:var(--trace);box-shadow:0 0 8px var(--trace)}
+.seat.t-blu .seat-n i{background:var(--pulse);box-shadow:0 0 8px var(--pulse)}
+.seat.rare .seat-n{border-color:var(--violet);color:var(--violet)}
+.seat.done .seat-n{opacity:.5}.seat.done .seat-n i{background:var(--trace-dim);box-shadow:none}
+.wait-floor{height:10px}
+.wait-info{margin-top:12px;min-height:74px;padding:12px 14px;border-radius:12px;border:1px solid var(--line-soft);background:rgba(10,18,30,.55)}
+.wait-info p{font-size:13.5px;line-height:1.5;margin-top:7px;font-style:italic}
+.wi-head{display:flex;align-items:center;gap:9px;flex-wrap:wrap;font-size:13.5px}
+.wi-head>b{font-family:var(--f-disp);font-size:13.5px;font-weight:500}
+.wi-v{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.wi-v b{color:var(--bone)}
+
+/* pharmacy cabinet */
+.shelf.cab{grid-template-columns:repeat(auto-fill,minmax(104px,1fr));grid-auto-rows:136px;gap:12px 6px;padding:6px 8px 0;border-radius:12px;
+  border:1px solid var(--line);background:
+  repeating-linear-gradient(180deg,transparent 0 134px,#2A3F5C 134px 139px,#0A1322 139px 142px,transparent 142px 148px),
+  linear-gradient(180deg,#0A1525,#070F1B)}
+.cab .vial{border:none;background:none;padding:0 2px 8px;justify-content:flex-end;gap:2px;border-radius:8px}
+.cab .vial:hover{background:none;transform:translateY(-5px);filter:drop-shadow(0 0 12px rgba(76,178,255,.5))}
+.vial-art{width:58px;height:78px;flex:0 0 auto}
+.cab .vial .vn{font-size:10.5px;line-height:1.15}
+.cab .vial .vd{font-size:9.5px}
+.cab .vial.picked{background:none;filter:drop-shadow(0 0 12px rgba(53,230,192,.8))}
+.cab .vial.picked .vn{color:var(--trace)}
+.cab .vial.err{background:none;filter:drop-shadow(0 0 12px rgba(255,77,98,.8))}
+.bigred{width:86px;height:86px;border-radius:50%;align-self:center;display:grid;place-items:center;
+  background:radial-gradient(circle at 35% 30%,#FF8090,#E11D3A 55%,#8E0F22);border:5px solid #1A2942;
+  box-shadow:0 7px 0 #5A0A16,0 12px 26px -6px rgba(255,77,98,.55),inset 0 -5px 10px rgba(0,0,0,.3);transition:.09s}
+.bigred .i{width:30px;height:30px;color:#fff}
+.bigred:hover{filter:brightness(1.1)}
+.bigred:active{transform:translateY(6px);box-shadow:0 1px 0 #5A0A16,0 4px 12px -6px rgba(255,77,98,.55),inset 0 -5px 10px rgba(0,0,0,.3)}
+@media (max-width:720px){ .scrim.on ~ #toasts{top:auto;bottom:calc(var(--dock) + 12px)} }
+
 /* ================= UTIL / RESPONSIVE ================= */
 .empty{padding:26px 16px;text-align:center;color:var(--muted);font-family:var(--f-mono);font-size:12px;letter-spacing:.1em}
 .kv{display:flex;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px}
@@ -1395,8 +1450,10 @@ const ACHS = [
   {id:'combo',   n:'On a Roll',            d:'Виграти п’ять мініігор поспіль.',            i:'zap'},
   {id:'master',  n:'Night Systems Engineer', d:'Пройти всі п’ять тренажерів на рівні 3.',  i:'cpu'},
   {id:'team',    n:'One of Us',            d:'Довести до кінця три історії з колегами.',  i:'users'},
+  {id:'regular', n:'Regulars',             d:'Прийняти трьох пацієнтів, які прийшли вдруге.', i:'heart'},
   {id:'daily3',  n:'Three Days Straight',  d:'Виконати завдання дня три дні поспіль.',     i:'sun'},
   /* secret */
+  {id:'finale',  n:'ZM-07',                d:'Ти дізналася, що таке PROJECT ZORKA насправді.', i:'dna', s:true},
   {id:'caller',  n:'Невідомий номер',      d:'Ти дізналася, хто дзвонив.',                 i:'phone',  s:true},
   {id:'auto',    n:'Автопілот',            d:'Закрити кейс з енергією нижче 15%.',         i:'batt',   s:true},
   {id:'risk',    n:'Risk Taker',           d:'Ти відкрила контейнер Олега.',               i:'alert',  s:true},
@@ -1447,6 +1504,7 @@ const DEFAULT = {
   queue:[], goals:[], planDone:false, events:[], evTotal:0, codeWins:0,
   pharmWins:0, pharmPerfect:false, shiftNo:1, shiftsDone:0, best:null, mod:'normal', tired:false,
   flags:{}, log:[], history:[], mg:{}, sms:[], calls:[], pending:[], files:[], unread:0,
+  met:{}, backs:0, finale:'',
   xpStart:0, secStart:0, t0:0, dailyDone:'', dayStreak:0, combo:0, comboBest:0, mgShift:0
 };
 const fresh = ()=> JSON.parse(JSON.stringify(DEFAULT));
@@ -2309,7 +2367,7 @@ function renderRoom(id){
    TRIAGE
    ============================================================ */
 const PATIENTS = [
-  {id:'014', nm:'Максим, 21 р.', tri:'yel',
+  {id:'014', back:{cc:'Знову серцебиття. «Цього разу без енергетиків. Три лате й передтренувальний комплекс.»', good:'Він приніс тобі воду. «Ви тоді сказали про пріоритети. Я записав.»', bad:'Він косо дивиться на автомат з енергетиками. «Ви ж самі тоді пропонували.»'}, nm:'Максим, 21 р.', tri:'yel',
    v:{ЧСС:'128/хв', АТ:'138/84', 'SpO₂':'98%'},
    cc:'Серцебиття, слабкість. «Випив 5 енергетиків перед тренуванням.»',
    acts:[
@@ -2320,7 +2378,7 @@ const PATIENTS = [
    joke:{l:'Дати ще один енергетик', r:'Зорка дивиться на тебе з розчаруванням.', ach:'energy'},
    dx:'Тахікардія після надміру кофеїну. План: вода, спокій і розмова про пріоритети.'},
 
-  {id:'027', nm:'Ігор, 34 р.', tri:'grn',
+  {id:'027', back:{cc:'«Докторе, я більше не читаю інтернет. Тепер я дивлюся відео.» Далі 14 хвилин.', good:'«Я сплю на спині, як ви казали. Рука як нова. Тепер нога.»', bad:'«Минулого разу ви погодилися з інтернетом. Я зберіг скриншот.»'}, nm:'Ігор, 34 р.', tri:'grn',
    v:{ЧСС:'76/хв', АТ:'124/78', 'SpO₂':'99%'},
    cc:'«Докторе, я прочитав в інтернеті…» Далі 11 хвилин без пауз.',
    acts:[
@@ -2331,7 +2389,7 @@ const PATIENTS = [
    joke:{l:'Погодитися з інтернетом', r:'Зорка мовчить рівно три секунди. Це найдовші три секунди зміни.'},
    dx:'Позиційне оніміння. План: спати не на руці. Рекомендація прийнята зі скепсисом.'},
 
-  {id:'031', nm:'Катерина, 20 р.', tri:'blu',
+  {id:'031', back:{cc:'П’ята доба сесії. «У мене тепер усі симптоми з розділу 13.»', good:'Вона показує залікову: «Склала. Те печиво тоді врятувало мені нервову систему.»', bad:'«Ви тоді підтвердили всі чотирнадцять діагнозів. Я розповіла групі.»'}, nm:'Катерина, 20 р.', tri:'blu',
    v:{ЧСС:'92/хв', АТ:'110/70', 'SpO₂':'99%'},
    cc:'Студентка-медик, четверта доба сесії. «У мене всі симптоми з розділу 12.»',
    acts:[
@@ -2353,7 +2411,7 @@ const PATIENTS = [
    joke:{l:'Показати найбільшу голку у відділенні', r:'Зорка забирає голку раніше, ніж ти встигаєш пояснити жарт.'},
    dx:'Поверхнева різана рана. План: перев’язка, сухо, контроль через дві доби.'},
 
-  {id:'088', nm:'Ніна Петрівна, 71 р.', tri:'yel',
+  {id:'088', back:{cc:'Прийшла з двома пакетами. Другий — сусідчин: «Гляньте заодно й Галине».', good:'Список великим шрифтом у неї в гаманці, заламінований. «Онук зробив. Я всім показую.»', bad:'«Ви мені тоді ще один препарат дописали. Я купила три упаковки.»'}, nm:'Ніна Петрівна, 71 р.', tri:'yel',
    v:{ЧСС:'70/хв', АТ:'150/85', 'SpO₂':'96%'},
    cc:'Прийшла з пакетом. У пакеті — 14 упаковок. Список призначень від чотирьох лікарів.',
    acts:[
@@ -2375,7 +2433,7 @@ const PATIENTS = [
    joke:{l:'Відповісти «так, звісно, зараз»', r:'Зорка: «Ти щойно погодилась на консультацію до ранку.» Stress +20.'},
    dx:'Коридорна консультація. План: перенести в робочий час. Прогноз сумнівний.'},
 
-  {id:'139', nm:'Оксана, 29 р.', tri:'grn',
+  {id:'139', back:{cc:'Гикавка повернулась. «Я не читала чат під’їзду. Я його тепер адмініструю».', good:'«Чоловік досі розповідає, як ви мене вилікували розмовою про відпустку.»', bad:'Вона здригається, щойно ти заходиш. «Тільки не кричіть. Будь ласка».'}, nm:'Оксана, 29 р.', tri:'grn',
    v:{ЧСС:'82/хв', АТ:'118/76', 'SpO₂':'99%'},
    cc:'Гикавка третю годину. «Перепробувала всі поради з чату під’їзду.»',
    acts:[
@@ -2386,7 +2444,7 @@ const PATIENTS = [
    joke:{l:'Раптово крикнути «БУ!»', r:'Гикавка лишилась. Тепер гикає ще й медсестра на посту.'},
    dx:'Гикавка, яка минула сама. План: не читати чат під’їзду після 22:00.'},
 
-  {id:'156', nm:'Дмитро, 38 р.', tri:'yel',
+  {id:'156', back:{cc:'Знову коліно. «Не самокат. Ролики. Дитина та сама».', good:'Він показує пластир із динозаврами на телефоні: «Заставка. Діти мене поважають».', bad:'«Ви тоді просили показати трюк. Я тренувався.» Звідси й ролики.'}, nm:'Дмитро, 38 р.', tri:'yel',
    v:{ЧСС:'96/хв', АТ:'130/82', 'SpO₂':'98%'},
    cc:'Впав із самоката. Самокат дитячий. Дитина не його.',
    acts:[
@@ -2397,7 +2455,7 @@ const PATIENTS = [
    joke:{l:'Попросити показати трюк ще раз', r:'Зорка стає між ним і коридором. Самоката тут, на щастя, немає.'},
    dx:'Забій коліна й гідності. План: холод, спокій, самокат повернути власникові.'},
 
-  {id:'171', nm:'Пан Степан, 82 р.', tri:'grn',
+  {id:'171', back:{cc:'Четвер. Нічого не болить. Приніс печиво на весь пост і нову історію про 1974-й.', good:'«Доню, я ж казав, що прийду.» Він пам’ятає, як звати всю зміну.', bad:'«Про політику сьогодні не будемо. Минулого разу ви мене втомили.»'}, nm:'Пан Степан, 82 р.', tri:'grn',
    v:{ЧСС:'68/хв', АТ:'135/80', 'SpO₂':'97%'},
    cc:'Нічого не болить. Прийшов, бо вдома нудно, а тут світло й люди.',
    acts:[
@@ -2419,7 +2477,7 @@ const PATIENTS = [
    joke:{l:'Попросити ручку на згадку', r:'Зорка: «Сорок восьма. Ні.»'},
    dx:'Ковпачок знайдено неушкодженим. План: вимикати камеру, коли жуєш ручки.'},
 
-  {id:'219', nm:'Юрій, 52 р.', tri:'yel',
+  {id:'219', back:{cc:'Спина. Шафу він досунув. Тепер переставляв диван — «бо шафа стала не туди».', good:'«Сусід допомагав. Я вас послухав.» Спина, втім, його не послухала.', bad:'«Ви питали, чи рівно стала. Не рівно. Тому диван.»'}, nm:'Юрій, 52 р.', tri:'yel',
    v:{ЧСС:'84/хв', АТ:'142/88', 'SpO₂':'98%'},
    cc:'Спина. Переставляв шафу сам, бо «там нічого складного».',
    acts:[
@@ -2430,7 +2488,7 @@ const PATIENTS = [
    joke:{l:'Запитати, чи шафа хоч стала рівно', r:'Не стала. Тепер у нього болить ще й це. Зорка зітхає за обох.'},
    dx:'М’язовий спазм і впертість. План: спокій, тепло, сусід.'},
 
-  {id:'244', nm:'Тимофій, 5 р., і мама', tri:'grn',
+  {id:'244', back:{cc:'Тимофій знову. Цього разу намистина блакитна. «Рожева там уже була».', good:'Він простягає тобі наліпку: «Це вам. За хоробрість.»', bad:'Він дуже серйозно повідомляє: «Вухо я спробував. Не сподобалось.»'}, nm:'Тимофій, 5 р., і мама', tri:'grn',
    v:{ЧСС:'102/хв', АТ:'—', 'SpO₂':'99%'},
    cc:'Засунув у ніс намистину. Наполягає, що «вона сама».',
    acts:[
@@ -2452,7 +2510,7 @@ const PATIENTS = [
    joke:{l:'Сказати, що ти теж не спиш', r:'Ви розумієте одна одну. Легше нікому не стає. Зорка позіхає.'},
    dx:'Три ночі з телефоном і дедлайном. План: посунути дедлайн, а не сон.'},
 
-  {id:'290', nm:'Вадим, 47 р., таксист', tri:'grn',
+  {id:'290', back:{cc:'Привіз іншого пацієнта. «Раз уже тут — тиск гляньте. Дружина питає».', good:'«Я був у сімейного. Він сказав те саме, що й ви. Тепер вірю обом.»', bad:'«Ви ж тоді хотіли, щоб я підвіз. Лічильник досі ввімкнений.»'}, nm:'Вадим, 47 р., таксист', tri:'grn',
    v:{ЧСС:'74/хв', АТ:'128/82', 'SpO₂':'98%'},
    cc:'Привіз пацієнта. Тепер хоче «заодно перевіритись, раз уже тут».',
    acts:[
@@ -2470,14 +2528,59 @@ function ensureQueue(){
   const valid = S.queue.filter(id=> PATIENTS.some(p=>p.id===id));
   if(valid.length >= QUEUE_SIZE){ S.queue = valid; return; }
   const keep = S.cases.filter(id=> PATIENTS.some(p=>p.id===id));
+  /* up to two familiar faces per night, so the returning-patient lines actually get seen */
+  const old = PATIENTS.filter(p=> p.back && S.met[p.id] && !keep.includes(p.id)).map(p=>p.id).sort(()=>Math.random()-.5).slice(0,2);
+  keep.push(...old);
   const rest = PATIENTS.filter(p=>!p.rare).map(p=>p.id).filter(id=> !keep.includes(id)).sort(()=>Math.random()-.5);
   S.queue = [...keep, ...rest].slice(0, Math.max(QUEUE_SIZE, keep.length));
   save();
 }
 
+/* seated figures for the waiting room: looks are derived from the patient, so each one is recognisable */
+function ptFigure(p, done){
+  const chair = `<rect x="16" y="60" width="68" height="50" rx="9" fill="#13233A" stroke="#2A3F5C" stroke-width="2"/>
+    <rect x="10" y="106" width="80" height="12" rx="5" fill="#1B2E48" stroke="#2A3F5C" stroke-width="2"/>
+    <path d="M18 118v26M82 118v26" stroke="#2A3F5C" stroke-width="4" stroke-linecap="round"/>`;
+  if(done) return `<svg viewBox="0 0 100 150">${chair}
+    <g opacity=".8"><circle cx="50" cy="84" r="13" fill="rgba(28,143,121,.25)" stroke="#1C8F79" stroke-width="2"/>
+    <path d="M44 84l4.5 4.5L57 80" fill="none" stroke="#35E6C0" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></g></svg>`;
+  if(p.face === 'cat') return `<svg viewBox="0 0 100 150">${chair}<g class="fig">
+    <path d="M70 100c14 2 16-14 8-18" fill="none" stroke="#E58A3A" stroke-width="6" stroke-linecap="round"/>
+    <ellipse cx="50" cy="94" rx="21" ry="15" fill="#E58A3A"/>
+    <path d="M36 70l-3-13 11 6zM64 70l3-13-11 6z" fill="#E58A3A"/>
+    <circle cx="50" cy="74" r="15" fill="#F09A48"/>
+    <path d="M42 86c3 5 13 5 16 0v12H42z" fill="#FBE3C8"/>
+    <circle cx="44" cy="72" r="2.2" fill="#0A1220"/><circle cx="56" cy="72" r="2.2" fill="#0A1220"/>
+    <path d="M48 77h4l-2 2.4z" fill="#C0562B"/><path d="M30 76h9M30 80h9M61 76h9M61 80h9" stroke="#FBE3C8" stroke-width="1.2" stroke-linecap="round"/></g></svg>`;
+  const h = [...p.id].reduce((a,c)=> a*31 + c.charCodeAt(0), 7);
+  const age = +(p.nm.match(/(\d+) р/)||[])[1] || 35;
+  const skin = ['#F2C9A5','#E3B089','#F6D7BC','#D9A27A'][h%4];
+  const shirt = ['#3E7CB1','#8E5BB5','#2F9E8A','#C06C4E','#5E6FA8','#B8893A','#A84E6A'][h%7];
+  const hair = age>=65 ? '#C9D3DE' : ['#2B1D14','#5A3B22','#111822','#8A5A2B','#3A2A3F'][h%5];
+  const kid = age<=12, long = h%3===0 && age<60, bald = age>=40 && h%4===1;
+  const hairD = bald ? `<path d="M36 40q14-9 28 0" fill="none" stroke="${hair}" stroke-width="3" stroke-linecap="round"/>`
+    : long ? `<path d="M33 46c-2-22 36-22 34 0l2 22h-9V44H40v24h-9z" fill="${hair}"/>`
+    : `<path d="M34 44c-2-20 34-20 32 0-6-7-26-7-32 0z" fill="${hair}"/>`;
+  const mouth = p.tri==='grn' ? 'M45 51q5 4 10 0' : p.tri==='blu' ? 'M46 53h8' : 'M45 54q5-4 10 0';
+  const extra = h%5===2 ? `<rect x="58" y="88" width="9" height="15" rx="2" fill="#0B1523" stroke="#4CB2FF" stroke-width="1.2"/>` : '';
+  return `<svg viewBox="0 0 100 150">${chair}<g class="fig"${kid?' transform="translate(15 20) scale(.7)"':''}>
+    <rect x="33" y="104" width="13" height="34" rx="6" fill="#22344C"/><rect x="54" y="104" width="13" height="34" rx="6" fill="#22344C"/>
+    <rect x="30" y="134" width="18" height="8" rx="4" fill="#0E1826"/><rect x="52" y="134" width="18" height="8" rx="4" fill="#0E1826"/>
+    <rect x="29" y="62" width="42" height="50" rx="15" fill="${shirt}"/>
+    <rect x="24" y="70" width="11" height="34" rx="5.5" fill="${shirt}"/><rect x="65" y="70" width="11" height="34" rx="5.5" fill="${shirt}"/>
+    <circle cx="29.5" cy="104" r="5" fill="${skin}"/><circle cx="70.5" cy="104" r="5" fill="${skin}"/>${extra}
+    <rect x="45" y="56" width="10" height="10" fill="${skin}"/>
+    <circle cx="50" cy="45" r="15" fill="${skin}"/>${hairD}
+    <circle cx="44.5" cy="46" r="1.7" fill="#0A1220"/><circle cx="55.5" cy="46" r="1.7" fill="#0A1220"/>
+    <path d="${mouth}" fill="none" stroke="#7A4A3A" stroke-width="1.6" stroke-linecap="round"/></g></svg>`;
+}
+/* a patient you have already treated in an earlier shift comes back with a new complaint and remembers you */
+const seen = p => !S.cases.includes(p.id) && S.met[p.id] ? S.met[p.id] : null;
+const ccOf = p => { const m = S.met[p.id]; return p.back && m && (S.cases.includes(p.id) ? m.n>1 : true) ? p.back.cc : p.cc; };
 function roomTriage(){
   ensureQueue(); maybeRare();
   const Q = queue();
+  const next = Q.find(p=> !S.cases.includes(p.id));
   const cards = Q.map(p=>{
     const done = S.cases.includes(p.id);
     return `<button class="pt t-${p.tri}${done?' done':''}${p.rare?' rare':''}" data-pt="${p.id}">
@@ -2485,7 +2588,7 @@ function roomTriage(){
         <div><div class="pt-id">ПАЦІЄНТ №${p.id}</div><div class="pt-name">${p.nm}</div></div>
         <div class="pt-face">${ic(done?'check':(p.face||'users'))}</div>
       </div>
-      <div class="pt-cc">${p.cc}</div>
+      <div class="pt-cc">${ccOf(p)}</div>
       <div class="pt-vitals">${Object.entries(p.v).map(([k,v])=>`<span>${k} <b>${v}</b></span>`).join('')}</div>
     </button>`;
   }).join('');
@@ -2495,7 +2598,20 @@ function roomTriage(){
       <div class="stack">
         <div class="panel"><div class="panel-h"><div class="panel-t">Черга</div>
           <span class="chip ${S.cases.length>=Q.length?'ok':''}">${S.cases.length}/${Q.length} закрито</span></div>
-          <div class="panel-b"><div class="pt-list">${cards}</div></div>
+          <div class="panel-b">${narrowMap() ? `<div class="pt-list">${cards}</div>` : `
+            <div class="wait">
+              <div class="wait-top">
+                <div class="wait-board"><span>ЕЛЕКТРОННА ЧЕРГА</span><b>${next ? 'НАСТУПНИЙ · №'+next.id : 'ЧЕРГА ПОРОЖНЯ'}</b></div>
+                <div class="wait-sign">${ic('cross')} ЗАЛ ОЧІКУВАННЯ</div>
+                <div class="wait-clock">${clockStr(S.min)}</div>
+              </div>
+              <div class="seats">${Q.map((p,i)=>{
+                const done = S.cases.includes(p.id);
+                return `<button class="seat t-${p.tri}${done?' done':''}${p.rare?' rare':''}" data-pt="${p.id}" style="--k:${i}" aria-label="Пацієнт №${p.id}, ${p.nm}">
+                  ${ptFigure(p, done)}<span class="seat-n"><i></i>№${p.id}${seen(p)?' ↺':''}</span></button>`; }).join('')}</div>
+              <div class="wait-floor"></div>
+            </div>
+            <div class="wait-info" id="waitInfo"><span class="note">Наведи на пацієнта, щоб побачити скарги. Натисни — щоб запросити до кабінету.</span></div>`}</div>
         </div>
       </div>
       <div class="stack">
@@ -2518,6 +2634,17 @@ function roomTriage(){
     `<span class="chip warn">${ic('users')} Черга рухається повільно</span>`));
 
   $$('[data-pt]').forEach(b=> b.onclick = ()=> openCase(b.dataset.pt));
+  $$('.seat').forEach(b=>{
+    const p = PATIENTS.find(x=> x.id===b.dataset.pt), done = S.cases.includes(p.id);
+    const show = ()=>{ $('#waitInfo').innerHTML = `
+      <div class="wi-head"><span class="chip ${p.tri==='yel'?'warn':p.tri==='grn'?'ok':'info'}">№${p.id}</span><b>${p.nm}</b>
+        ${seen(p)?`<span class="chip sec">${ic('refresh')} повторний візит</span>`:''}
+        ${done?`<span class="chip ok">${ic('check')} прийнято</span>`:''}
+        <span class="wi-v">${Object.entries(p.v).map(([k,v])=>`${k} <b>${v}</b>`).join(' · ')}</span></div>
+      <p>${done ? p.dx : ccOf(p)}</p>`; };
+    b.addEventListener('mouseenter', ()=>{ A.hover(); show(); });
+    b.addEventListener('focus', show);
+  });
   $('#mgSeq').onclick = ()=> openMG('seq');
   $('#bell').onclick = ()=>{
     A.tone({f:1046,d:.18,g:.08,type:'sine'}); A.tone({f:1318,d:.18,g:.08,type:'sine',at:.16});
@@ -2544,6 +2671,7 @@ function openCase(pid){
   const done = new Set();
   const findings = [];
   let jokeUsed = false;
+  const back = seen(p);
 
   const render = ()=>{
     const solved = done.size >= p.acts.length;
@@ -2555,7 +2683,9 @@ function openCase(pid){
         <span class="chip ${p.tri==='yel'?'warn':p.tri==='grn'?'ok':'info'}">TRIAGE ${p.tri.toUpperCase()}</span>
         ${Object.entries(p.v).map(([k,v])=>`<span class="chip">${k} ${v}</span>`).join('')}
       </div>
-      <div class="case-cc"><div class="lbl" style="margin-bottom:6px">Скарги</div><p class="q">${p.cc}</p></div>
+      <div class="case-cc"><div class="lbl" style="margin-bottom:6px">Скарги${back?' · повторний візит':''}</div><p class="q">${ccOf(p)}</p></div>
+      ${back ? `<div class="zsay"><div class="av">${ic('refresh')}</div><div><div class="who">Пам’ятає тебе</div>
+        <p>${p.back ? (back.joke ? p.back.bad : p.back.good) : 'Картку вже знає напам’ять і сам диктує дату народження.'}</p></div></div>` : ''}
       <div class="acts" id="caseActs">
         ${p.acts.map((a,i)=>`<button class="act${done.has(i)?' used':''}" data-a="${i}">${ic(a.i)} ${a.l}</button>`).join('')}
         <button class="act joke${jokeUsed?' used':''}" data-a="joke">${ic('zap')} ${p.joke.l}</button>
@@ -2563,7 +2693,7 @@ function openCase(pid){
       <div class="findings" id="caseFind">${findings.map(f=>`<div class="finding">${ic('check')}<span>${f}</span></div>`).join('')}</div>
       ${solved?`<div class="zsay"><div class="av">Z</div><div><div class="who">Висновок</div><p>${p.dx}</p></div></div>`:''}`,
       actions: solved
-        ? [{label:`Case solved · +${Math.round(40*(mod().caseXp||1))} XP`, cls:'pri', icon:'check', fn:()=>{ closeCase(p); }}]
+        ? [{label:`Case solved · +${Math.round(40*(mod().caseXp||1))} XP`, cls:'pri', icon:'check', fn:()=>{ closeCase(p, jokeUsed); }}]
         : [{label:'Відкласти', fn:()=>closeModal()}]
     });
     $$('#caseActs .act', b).forEach(btn=>{
@@ -2585,8 +2715,13 @@ function openCase(pid){
   };
   render();
 }
-function closeCase(p){
+function closeCase(p, joke){
   if(!S.cases.includes(p.id)){
+    if(S.met[p.id]){
+      S.backs++; addXp(10, 'Постійний пацієнт');
+      if(S.backs >= 3) unlock('regular');
+    }
+    S.met[p.id] = {n:(S.met[p.id] ? S.met[p.id].n : 0) + 1, joke:!!joke};
     if(S.energy<=15) unlock('auto');
     S.cases.push(p.id); S.patients++; logIt(`Кейс №${p.id} закрито · ${p.nm}`, 'check'); save();
     if(p.sec) findSecret(p.sec);
@@ -3749,17 +3884,35 @@ function roomER(){
    PHARMACY
    ============================================================ */
 const VIALS = [
-  {n:'NaCl 0.9%', d:'500 мл', t:'Розчин, який тут вирішує більше проблем, ніж будь-яка нарада.'},
-  {n:'Glucosum 5%', d:'250 мл', t:'Стоїть поруч. Плутати не можна. Плутають щоразу вночі — тому й підписано двічі.'},
-  {n:'Paracetamol', d:'500 мг', t:'Найпопулярніша упаковка у відділенні. Друге місце — кава, але її тут не видають.'},
-  {n:'Magnesii sulf.', d:'25%', t:'Ампула, яку завжди беруть останню з коробки, і завжди виявляється, що вона й була остання.'},
-  {n:'Vitamin B12', d:'1 мл', t:'Червона. Дуже червона. Найкрасивіша ампула на полиці — і всі це знають.'},
-  {n:'Furosemidum', d:'20 мг', t:'Після нього планувати щось на найближчу годину — оптимізм.'},
-  {n:'Sol. Ringeri', d:'400 мл', t:'Класика. Стоїть у кожній лікарні світу, як і зламаний стілець у коридорі.'},
-  {n:'Ung. Zinci', d:'25 г', t:'Термін придатності закінчився. Тюбик усе одно на полиці — «раптом знадобиться».'},
-  {n:'Спирт 70%', d:'100 мл', t:'Пляшка на дві третини порожня. Ніхто нічого не знає.'},
-  {n:'Активоване вугілля', d:'№10', t:'Пацієнти вірять у нього більше, ніж у все інше на цій полиці разом узяте.'}
+  {n:'NaCl 0.9%', k:'bottle', c:'#6FC1FF', d:'500 мл', t:'Розчин, який тут вирішує більше проблем, ніж будь-яка нарада.'},
+  {n:'Glucosum 5%', k:'bottle', c:'#F4E19A', d:'250 мл', t:'Стоїть поруч. Плутати не можна. Плутають щоразу вночі — тому й підписано двічі.'},
+  {n:'Paracetamol', k:'box', c:'#FF6B7C', d:'500 мг', t:'Найпопулярніша упаковка у відділенні. Друге місце — кава, але її тут не видають.'},
+  {n:'Magnesii sulf.', k:'amp', c:'#CFE3F5', d:'25%', t:'Ампула, яку завжди беруть останню з коробки, і завжди виявляється, що вона й була остання.'},
+  {n:'Vitamin B12', k:'amp', c:'#FF3B55', d:'1 мл', t:'Червона. Дуже червона. Найкрасивіша ампула на полиці — і всі це знають.'},
+  {n:'Furosemidum', k:'amp', c:'#FFB347', d:'20 мг', t:'Після нього планувати щось на найближчу годину — оптимізм.'},
+  {n:'Sol. Ringeri', k:'bottle', c:'#35E6C0', d:'400 мл', t:'Класика. Стоїть у кожній лікарні світу, як і зламаний стілець у коридорі.'},
+  {n:'Ung. Zinci', k:'tube', c:'#DCE6F0', d:'25 г', t:'Термін придатності закінчився. Тюбик усе одно на полиці — «раптом знадобиться».'},
+  {n:'Спирт 70%', k:'jar', c:'#8A5A2B', d:'100 мл', t:'Пляшка на дві третини порожня. Ніхто нічого не знає.'},
+  {n:'Активоване вугілля', k:'box', c:'#2A3340', d:'№10', t:'Пацієнти вірять у нього більше, ніж у все інше на цій полиці разом узяте.'}
 ];
+function vialSvg(v){
+  const c = v.c, g = `stroke="#9FB3C9" stroke-width="1.6"`;
+  const art = {
+    bottle:`<rect x="23" y="4" width="14" height="9" rx="2" fill="#42607F"/><path d="M20 13h20v6l6 8v44a5 5 0 0 1-5 5H19a5 5 0 0 1-5-5V27l6-8z" fill="rgba(200,225,245,.12)" ${g}/>
+      <path d="M15.5 40h29v31a3.5 3.5 0 0 1-3.5 3.5H19a3.5 3.5 0 0 1-3.5-3.5z" fill="${c}" opacity=".75"/>
+      <rect x="18" y="44" width="24" height="15" rx="2" fill="#EAF1F8"/><path d="M21 49h18M21 54h11" stroke="#7186A2" stroke-width="1.6" stroke-linecap="round"/>`,
+    amp:`<path d="M27 4h6v9c0 4 6 5 6 11v44a8 8 0 0 1-18 0V24c0-6 6-7 6-11z" fill="rgba(200,225,245,.12)" ${g}/>
+      <path d="M22.5 34h15v34a7.5 7.5 0 0 1-15 0z" fill="${c}" opacity=".85"/><path d="M26 20h8" stroke="#35E6C0" stroke-width="2"/>
+      <rect x="24" y="44" width="12" height="12" rx="1.5" fill="#EAF1F8" opacity=".9"/>`,
+    box:`<rect x="9" y="26" width="42" height="50" rx="4" fill="#EAF1F8" stroke="#9FB3C9" stroke-width="1.6"/><rect x="9" y="26" width="42" height="14" rx="4" fill="${c}"/>
+      <path d="M16 50h28M16 57h20M16 64h24" stroke="#7186A2" stroke-width="2" stroke-linecap="round"/><circle cx="43" cy="66" r="4" fill="${c}"/>`,
+    tube:`<rect x="24" y="6" width="12" height="10" rx="2" fill="#42607F"/><path d="M21 16h18l5 52c0 5-28 5-28 0z" fill="${c}" ${g}/><path d="M16 70h28v6H16z" fill="#9FB3C9"/>
+      <rect x="23" y="30" width="14" height="20" rx="2" fill="#4CB2FF" opacity=".8"/>`,
+    jar:`<rect x="22" y="6" width="16" height="10" rx="2" fill="#16233A" stroke="#3A5372" stroke-width="1.6"/><path d="M19 16h22v8l5 6v40a6 6 0 0 1-6 6H20a6 6 0 0 1-6-6V30l5-6z" fill="${c}" opacity=".55" ${g}/>
+      <path d="M15.5 52h29v18a4.5 4.5 0 0 1-4.5 4.5H20a4.5 4.5 0 0 1-4.5-4.5z" fill="${c}"/><rect x="18" y="34" width="24" height="13" rx="2" fill="#EAF1F8"/><path d="M21 40.5h18" stroke="#FF4D62" stroke-width="2.4"/>`
+  }[v.k] || '';
+  return `<svg class="vial-art" viewBox="0 0 60 80" aria-hidden="true">${art}</svg>`;
+}
 function roomPharm(){
   mountRoom(roomShell('pharm', `
     <div class="grid2">
@@ -3767,7 +3920,7 @@ function roomPharm(){
         <div class="panel"><div class="panel-h"><div class="panel-t">Полиця</div>
           <span class="chip">${VIALS.length} позицій</span></div>
           <div class="panel-b">
-            <div class="shelf" id="shelf"></div>
+            <div class="shelf cab" id="shelf"></div>
           </div>
         </div>
         <div class="panel"><div class="panel-h"><div class="panel-t">Нічне замовлення</div>
@@ -3791,7 +3944,7 @@ function roomPharm(){
           <div class="panel-b stack">
             <p class="note">Хтось прикрутив сюди велику червону кнопку. Підпис від руки:
             <span class="mono cd">«САМОЗНИЩЕННЯ»</span>.</p>
-            <button class="btn wide danger" id="boomBtn">${ic('power')} Натиснути</button>
+            <button class="bigred" id="boomBtn" aria-label="Натиснути">${ic('power')}</button>
             <p class="note" id="boomNote"></p>
           </div>
         </div>
@@ -3811,7 +3964,7 @@ function roomPharm(){
   const WARDS = ['Приймальне','Кардіологія','Неврологія','Резус-зал','Палата 6','Лабораторія'];
   const shelf = order=>{
     $('#shelf').innerHTML = order.map(i=>{ const v = VIALS[i];
-      return `<button class="vial${ord && ord.got.includes(i)?' picked':''}" data-v="${i}">${ic('tube')}<span class="vn">${v.n}</span><span class="vd">${v.d}</span></button>`; }).join('');
+      return `<button class="vial${ord && ord.got.includes(i)?' picked':''}" data-v="${i}">${vialSvg(v)}<span class="vn">${v.n}</span><span class="vd">${v.d}</span></button>`; }).join('');
     $$('#shelf .vial').forEach(b=> b.onclick = ()=> pick(b));
   };
   const chips = (show)=> ord.need.map(i=>{
@@ -4575,6 +4728,13 @@ function roomResearch(){
               <p class="mono" style="font-size:11px;color:var(--violet);word-break:break-all" id="genCode"></p></div>
           </div>
         </div>
+        <div class="panel"><div class="panel-h"><div class="panel-t">Протокол ZM-07</div>
+          <span class="chip ${S.finale?'ok':'sec'}">${S.finale?'закрито':'потрібні три докази'}</span></div>
+          <div class="panel-b stack">
+            ${FINALE_PROOF.map(f=>`<div class="goal${f.ok()?' done':''}"><span class="gb">${ic('check')}</span><span>${f.ok()?f.t:f.h}</span></div>`).join('')}
+            <button class="btn wide ${FINALE_PROOF.every(f=>f.ok())?'pri':''}" id="finBtn" ${FINALE_PROOF.every(f=>f.ok())?'':'disabled'}>${ic('dna')} ${S.finale?'Перечитати протокол':'Запустити протокол'}</button>
+          </div>
+        </div>
         <div class="panel"><div class="panel-h"><div class="panel-t">Підказка</div></div>
           <div class="panel-b"><p class="note">Одна пара основ у спіралі світиться інакше за решту.
           Оберни модель і знайди її.</p></div>
@@ -4586,9 +4746,65 @@ function roomResearch(){
   const gc = $('#genCode');
   const letters = 'ATGC';
   gc.textContent = Array.from({length:220}, ()=> letters[ri(0,3)]).join('');
+  $('#finBtn').onclick = runFinale;
   setInterval(()=>{ if(gc.isConnected && !document.hidden) gc.textContent =
     Array.from({length:220}, ()=> letters[ri(0,3)]).join(''); }, 2600);
   initDna();
+}
+const FINALE_PROOF = [
+  {t:'Досьє PROJECT ZORKA прочитано',        h:'Досьє: знайди пару основ, що світиться інакше',        ok:()=> S.secrets.includes('dna')},
+  {t:'Пацієнта №404 записано в журнал',      h:'Пацієнт №404: він знаходиться сам, у коридорі',        ok:()=> S.secrets.includes('p404')},
+  {t:'Слід айтішника в ZORKA OS знайдено',   h:'Айтішник: прихований термінал або третій файл сховища', ok:()=> S.secrets.includes('terminal') || S.secrets.includes('sysfile')}
+];
+const FINALE_PAGES = [
+  ['ZM-07 · сторінка 1 з 4', `<p class="mono" style="line-height:1.9;color:var(--violet)">PROJECT ZORKA — це не експеримент над тобою.</p>
+    <p style="margin-top:12px">Шість років тому хтось у підвалі помітив дивну річ у логах: є ночі, коли в корпусі B нічого не ламається,
+    ніхто не губиться, а ранкова зміна приходить у відділення, де все на місцях. Він почав шукати, що в цих ночах спільного.</p>
+    <p class="note" style="margin-top:12px">Він перевірив графік генератора, фази місяця й марку кави. Спільним виявилося прізвище в графіку чергувань.</p>`],
+  ['ZM-07 · сторінка 2 з 4', `<p>Досьє, яке ти знайшла у спіралі, — не медична картка. Це нотатки людини, яка намагалася зрозуміти,
+    <b class="tr">як саме ти це робиш</b>.</p>
+    <div class="holo dossier" style="margin-top:12px">
+      <div><span class="k">Гіпотеза 1: кофеїн</span><span class="v">відхилено</span></div><div style="clear:both"></div>
+      <div><span class="k">Гіпотеза 2: сон</span><span class="v">відхилено, сну немає</span></div><div style="clear:both"></div>
+      <div><span class="k">Гіпотеза 3: їй просто не байдуже</span><span class="v">підтверджується щоночі</span></div><div style="clear:both"></div>
+    </div>`],
+  ['ZM-07 · сторінка 3 з 4', `<p>Пацієнт №404 — не пацієнт. Раз на ніч айтішник підіймається з підвалу на третій поверх,
+    зазирає у двері й каже перше, що спадає на думку: <i>«Вибачте, я переплутав поверх»</i>.</p>
+    <p style="margin-top:12px">Він не переплутав. Він перевіряє, чи ти ще на ногах. Потім іде вниз і лагодить те, що за ніч
+    зламалося б без нього: Wi-Fi, принтер, щиток. Тому його й немає в базі — він сам її веде.</p>
+    <p class="note" style="margin-top:12px">Табличку «Definitely not a secret lab» повісив теж він. Про всяк випадок.</p>`],
+  ['ZM-07 · сторінка 4 з 4', `<p>Останній рядок протоколу надруковано сьогодні, о 03:11:</p>
+    <div class="case-cc" style="margin-top:12px"><p class="q">«висновок: лікарня тримається не на протоколах, не на генераторі й не на мені.
+    вона тримається на тому, що хтось на третьому поверсі щоночі вирішує не піти додому раніше.
+    проєкт закриваю. дані стираю. дякую за шість років.»</p></div>
+    <p style="margin-top:14px">Під текстом блимає курсор. Протокол чекає на твою відповідь.</p>`]
+];
+const FINALE_CHOICES = {
+  sign:  {l:'Підписати протокол',                    i:'pen',    r:'Підпис поставлено. Десь у підвалі тихо клацає клавіша Enter. Відтепер кожну зміну ти починаєш без стресу: хтось про це подбав.'},
+  note:  {l:'Дописати на полях: «іди спати сам»',     i:'moon',   r:'Курсор завмирає на три секунди. Потім: «ок. справедливо.» Глітчі в системі відтепер трапляються рідше — він нарешті спить.'},
+  coffee:{l:'Лишити на столі каву для пацієнта №404', i:'coffee', r:'Ти ставиш чашку біля клавіатури. Вранці вона порожня й вимита. Відтепер на початку кожної зміни на твоєму столі чекає кава у відповідь.'}
+};
+function runFinale(){
+  A.secret(); fx('glitch');
+  let i = 0;
+  const page = ()=>{
+    const last = i === FINALE_PAGES.length-1, [t, body] = FINALE_PAGES[i];
+    const b = openModal({kind:'event', wide:true, title:`${ic('dna')} ${t}`, body: body + (last && !S.finale ? `
+      <div class="ev-opts">${Object.entries(FINALE_CHOICES).map(([k,c])=>`<button class="act" data-f="${k}">${ic(c.i)} ${c.l}</button>`).join('')}</div>` : ''),
+      actions: last ? (S.finale ? [{label:'Закрити протокол', cls:'pri'}] : [])
+        : [{label:'Далі', cls:'pri', icon:'next', fn:()=>{ i++; A.page(); page(); }}]});
+    $$('[data-f]', b).forEach(x=> x.onclick = ()=>{
+      const k = x.dataset.f, c = FINALE_CHOICES[k];
+      S.finale = k; logIt('Протокол ZM-07 закрито: '+c.l.toLowerCase(), 'dna'); save();
+      unlock('finale'); addXp(150, 'PROJECT ZORKA');
+      A.ach();
+      openModal({kind:'event', title:`${ic('dna')} Протокол закрито`, body:`
+        <div class="zsay"><div class="av">Z</div><div><div class="who">Що було далі</div><p>${c.r}</p></div></div>
+        <p class="note" style="margin-top:14px;text-align:center;letter-spacing:.2em">КІНЕЦЬ ІСТОРІЇ · ЗМІНА ТРИВАЄ</p>`,
+        actions:[{label:'Повернутися до роботи', cls:'pri', fn:()=>{ closeModal(); if(S.room==='research') roomResearch(); }}]});
+    });
+  };
+  page();
 }
 function initDna(){
   const cv = $('#dnaCanvas'), stage = $('#resStage'), ctx = cv.getContext('2d');
@@ -5489,6 +5705,10 @@ MAILS.push(
     <p>Пишу з робочої пошти, щоб було офіційно.</p>
     <p style="margin-top:10px">Холодильник у кімнаті персоналу. Друга полиця. Контейнер. Він там не просто так.</p>
     <p style="margin-top:10px" class="note">Якщо хтось його відкриє — я дізнаюся. Я завжди дізнаюся.</p>`},
+  {s:'щодо zm-07', f:'той.самий@підвал', cond:()=> !!S.finale, b:`
+    <p class="mono">дані стер. досьє лишив — воно твоє.</p>
+    <p class="mono" style="margin-top:10px">якщо щось зламається — стукай по батареї двічі. я почую.</p>
+    <p class="mono" style="margin-top:10px">і так, «переплутав поверх» — це було слабко. я не вмію придумувати на ходу.</p>`},
   {s:'[без теми]', f:'невідомий відправник', cond:()=> S.flags.hint===1 || S.files.length>0, b:`
     <p class="mono">сховище не закрите. воно просто перевіряє, чи ти вмієш рахувати.</p>
     <p class="mono" style="margin-top:10px">третій файл відкривати не треба. отже, ти його відкриєш.</p>`},
@@ -5561,7 +5781,7 @@ function osAppX(id, box){
    ============================================================ */
 function newShift(){
   const keep = ['xp','ach','secrets','sound','pen','vend','snooze','mail','seenIntro','shiftsDone','best','history',
-    'mg','files','evTotal','comboBest','dayStreak','dailyDone','calls'];
+    'mg','files','evTotal','comboBest','dayStreak','dailyDone','calls','met','backs','finale'];
   const n = fresh();
   keep.forEach(k=> n[k] = S[k]);
   n.shiftNo = S.shiftNo + 1; n.started = true;
@@ -5573,6 +5793,9 @@ function newShift(){
   applyHour(); renderRail(); A.door();
   showScene('map'); renderMap();
   logIt(`Зміна №${S.shiftNo} почалася · ${mod().n}`, 'moon');
+  if(S.finale==='sign'){ S.stress = 0; }
+  if(S.finale==='coffee'){ S.energy = 118; setTimeout(()=> toast('Кава на столі', 'Під чашкою записка: «у відповідь. — 404»', 'sec', 'coffee'), 900); }
+  save(); renderRail();
   openMod();
 }
 function startRun(){ S.xpStart = S.xp; S.secStart = S.secrets.length; S.t0 = Date.now(); }
@@ -5606,6 +5829,9 @@ function decisionLines(){
   if(f.andriyEnd && f.andriyEnd!=='duck') L.push('Степлер повернувся на пост. Уперше з лютого.');
   if(f.olyaEnd)             L.push('Оля тобі нічого не казала. Ти їй — теж.');
   if(f.olya===-1 && !f.olyaEnd) L.push('На дошці оголошень досі висить папірець без прізвища.');
+  if(S.finale==='sign')   L.push('Протокол ZM-07 підписано. У підвалі хтось уперше за шість років пішов додому вчасно.');
+  if(S.finale==='note')   L.push('Айтішник послухав твою пораду й спить. Принтер без нього трохи розгублений.');
+  if(S.finale==='coffee') L.push('Чашка для пацієнта №404 знову порожня й вимита.');
   if(f.pies)       L.push('Пиріжків із шостої палати вистачило всім. Тебе тепер люблять двоє санітарів.');
   if(f.printer)    L.push('Принтер тебе пам’ятає.');
   return L;
@@ -5701,7 +5927,7 @@ setInterval(()=>{
   if(document.hidden || !S.started || S.finished) return;
   if($('#scrim').classList.contains('on') || $('#phone').classList.contains('on')) return;
   if(S.mod==='storm' && Math.random() < .4) return fx('storm');
-  if(Math.random() < .07){ fx('glitch'); const g = rnd(GLITCH_LINES); toast(g[0], g[1], 'sec', 'cpu'); }
+  if(Math.random() < (S.finale==='note' ? .025 : .07)){ fx('glitch'); const g = rnd(GLITCH_LINES); toast(g[0], g[1], 'sec', 'cpu'); }
 }, 41000);
 </script>
 
@@ -6106,7 +6332,7 @@ window.addEventListener('resize', ()=>{
     lastNarrow = n;
     if($('#sc-map').classList.contains('on')) renderMap();
     buildDesk();
-    if($('#sc-room').classList.contains('on') && (S.room === 'lab' || S.room === 'lounge')) renderRoom(S.room);
+    if($('#sc-room').classList.contains('on') && (S.room === 'lab' || S.room === 'lounge' || S.room === 'triage')) renderRoom(S.room);
   }
 });
 
